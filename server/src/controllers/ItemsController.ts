@@ -1,19 +1,20 @@
-import { Request, Response } from 'express';
-import knex from '../database/connection';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Request, Response } from "express";
+import knex from "../database/connection";
 
 class ItemsController{
-    async index (req: Request, res: Response){
-        const items = await knex('items').select('*');
-        const serializedItems = items.map(item =>{
-            return { 
-                id: item.id,
-                title: item.title,
-                image_url: `http://localhost:3001/uploads/${item.image}`,
-            }
-        });
-        console.log(serializedItems);
-        return res.json(serializedItems);
-    }
-};
+	async index (req: Request, res: Response){
+		const items = await knex("items").select("*");
+		const serializedItems = items.map(item =>{
+			return { 
+				id: item.id,
+				title: item.title,
+				image_url: `http://localhost:3001/uploads/${item.image}`,
+			};
+		});
+		console.log(serializedItems);
+		return res.json(serializedItems);
+	}
+}
 
 export default ItemsController;
