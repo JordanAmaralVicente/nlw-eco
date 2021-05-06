@@ -31,4 +31,5 @@ jobs:
           git clone https://github.com/JordanAmaralVicente/nlw-eco.git
           cd nlw-eco/server
           npm install
-          npm run start:server
+          if : npm run start:server == 'Listening on http://localhost:3001'
+  
