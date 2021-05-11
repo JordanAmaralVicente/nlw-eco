@@ -64,25 +64,30 @@ const CreatePoint:React.FC = ()=>{
 	async function handleSubmit(event: FormEvent){
 		event.preventDefault();
 
-		const { name, email, whatsapp } = formInputData;
-		const uf = selectedUf;
-		const city = selectedCity;
-		const [ latitude, longitude ] = selectedPosition;
-		const items = selectedItems;
-
-		const data = {
-			name,
-			email,
-			whatsapp,
-			uf,
-			city,
-			latitude,
-			longitude,
-			items
-		};
-		console.log(data);
-		await api.post("/points", data);
-		history.push("/");
+		if(selectedUf !== "0" && selectedCity !== "0" && selectedItems.length != 0){
+			const { name, email, whatsapp } = formInputData;
+			const uf = selectedUf;
+			const city = selectedCity;
+			const [ latitude, longitude ] = selectedPosition;
+			const items = selectedItems;
+	
+	
+			const data = {
+				name,
+				email,
+				whatsapp,
+				uf,
+				city,
+				latitude,
+				longitude,
+				items
+			};
+			await api.post("/points", data);
+			history.push("/");
+		}else{
+			alert("Você presica selecionar todos campos");
+		}
+		
 	}
 	function handleSelectItem(id: number){
 		const alreadySelected = selectedItems.findIndex(item => item === id);
@@ -130,16 +135,16 @@ const CreatePoint:React.FC = ()=>{
 					</legend>
 					<div className="field">
 						<label htmlFor="name">Nome da Entidade</label>
-						<input type="text" name="name" id="name" onChange={handleInputChange}/>
+						<input type="text" name="name" id="name" onChange={handleInputChange} required/>
 					</div>
 					<div className="field-group">
 						<div className="field">
 							<label htmlFor="email">E-mail</label>
-							<input type="email" name="email" id="email" onChange={handleInputChange}/>
+							<input type="email" name="email" id="email" onChange={handleInputChange} required/>
 						</div>
 						<div className="field">
 							<label htmlFor="whatsapp">Whatsapp</label>
-							<input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange}/>
+							<input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} required/>
 						</div>
 					</div>
 				</fieldset>

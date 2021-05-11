@@ -12,7 +12,6 @@ class ItemsController{
 				image_url: `http://localhost:3001/uploads/${item.image}`,
 			};
 		});
-		console.log(serializedItems);
 		return res.json(serializedItems);
 	}
 }
