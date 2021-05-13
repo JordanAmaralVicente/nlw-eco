@@ -59,6 +59,7 @@ class PointsController{
 		const { city, uf, items } = req.query;
 		
 		if(city && uf && items){
+			console.log("city: " + city +" uf: " + uf + " items" + items);
 			const parsedItems = String(items).split(/, |,/g).map(item =>(Number(item.trim())));
 			const points = await knex("point_items")
 				.join("points", "point_items.point_id","=" ,"points.id" )
@@ -67,7 +68,28 @@ class PointsController{
 				.where("uf", String(uf))
 				.distinct()
 				.select("points.*");
-			return res.status(200).send(points);
+			
+			const db_items = await knex("items")
+				.select("*")
+				.join("point_items", "items.id", "point_items.item_id");
+
+			const finalPoints = points.map((point)=>{
+				const point_items = db_items.filter(item =>(
+					item.point_id === point.id
+				));
+				const parsedItems = point_items.map(item => {
+					const {id, image, title} = item;
+					const obj : Item = {
+						id, image, title
+					};
+					return obj; 
+				});
+				point.items = [];
+				point.items.push(...parsedItems);
+				return point;
+			});
+
+			return res.status(200).send(finalPoints);
 		}else{
 			const points : Point[] = await knex("points")
 				.select("*")
@@ -94,7 +116,6 @@ class PointsController{
 
 			return res.status(200).send(finalPoints);
 		}
-
 	}
 }
 

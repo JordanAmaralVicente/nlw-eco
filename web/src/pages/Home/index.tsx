@@ -23,6 +23,12 @@ const Home : React.FC = () => {
 						</span>
 						<strong>Cadastre um ponto de coleta</strong>
 					</Link>
+					<Link to="/points" className="go-points">
+						<span>
+							<FiLogIn/>
+						</span>
+						<strong>Listas pontos de coleta</strong>
+					</Link>
 				</main>
 			</div>
 		</div>
